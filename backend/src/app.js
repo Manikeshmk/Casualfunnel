@@ -37,12 +37,6 @@ app.get('/health', (req, res) => {
 const startServer = async () => {
   // Connect to DB (Mongo or Local fallback)
   await dbAdapter.connectDB();
-  
-  // Seed mock data if database is empty
-  const demoUrl = process.env.VERCEL
-    ? `https://${process.env.VERCEL_URL}/_/backend/demo/`
-    : `http://localhost:${PORT}/demo`;
-  await dbAdapter.seedMockData(demoUrl);
 
   // Start Express Server only when not running on Vercel serverless
   if (!process.env.VERCEL) {

@@ -22,42 +22,6 @@ const uniquePageUrls = (events) => (
   [...new Set(events.map(event => event.page_url).filter(Boolean))]
 );
 
-// Local static fallback data in case of technical issues connecting to backend API
-const LOCAL_FALLBACK_SESSIONS = [
-  {
-    session_id: 'sess-fallback-demo-1',
-    total_events: 6,
-    page_views: 2,
-    clicks: 4,
-    first_event: new Date(Date.now() - 12 * 60000).toISOString(),
-    last_event: new Date(Date.now() - 1 * 60000).toISOString()
-  },
-  {
-    session_id: 'sess-fallback-demo-2',
-    total_events: 1,
-    page_views: 1,
-    clicks: 0,
-    first_event: new Date(Date.now() - 40 * 60000).toISOString(),
-    last_event: new Date(Date.now() - 40 * 60000).toISOString()
-  }
-];
-
-const LOCAL_FALLBACK_EVENTS = [
-  { event_type: 'page_view', page_url: 'http://localhost:3001/demo/', timestamp: new Date(Date.now() - 12 * 60000).toISOString(), viewport_width: 1440, viewport_height: 900 },
-  { event_type: 'click', page_url: 'http://localhost:3001/demo/', timestamp: new Date(Date.now() - 10 * 60000).toISOString(), click_x: 280, click_y: 480, viewport_width: 1440, viewport_height: 900 },
-  { event_type: 'click', page_url: 'http://localhost:3001/demo/', timestamp: new Date(Date.now() - 9 * 60000).toISOString(), click_x: 280, click_y: 480, viewport_width: 1440, viewport_height: 900 },
-  { event_type: 'click', page_url: 'http://localhost:3001/demo/', timestamp: new Date(Date.now() - 7 * 60000).toISOString(), click_x: 600, click_y: 480, viewport_width: 1440, viewport_height: 900 },
-  { event_type: 'page_view', page_url: 'http://localhost:3001/demo/#cart', timestamp: new Date(Date.now() - 4 * 60000).toISOString(), viewport_width: 1440, viewport_height: 900 },
-  { event_type: 'click', page_url: 'http://localhost:3001/demo/', timestamp: new Date(Date.now() - 1 * 60000).toISOString(), click_x: 1150, click_y: 40, viewport_width: 1440, viewport_height: 900 }
-];
-
-const LOCAL_FALLBACK_HEATMAP = [
-  { session_id: 'sess-fallback-demo-1', click_x: 280, click_y: 480, timestamp: new Date(Date.now() - 10 * 60000).toISOString() },
-  { session_id: 'sess-fallback-demo-1', click_x: 280, click_y: 480, timestamp: new Date(Date.now() - 9 * 60000).toISOString() },
-  { session_id: 'sess-fallback-demo-1', click_x: 600, click_y: 480, timestamp: new Date(Date.now() - 7 * 60000).toISOString() },
-  { session_id: 'sess-fallback-demo-1', click_x: 1150, click_y: 40, timestamp: new Date(Date.now() - 1 * 60000).toISOString() }
-];
-
 export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
   const [sessions, setSessions] = useState([]);
@@ -111,10 +75,7 @@ export default function App() {
     // Filter heatmap clicks: if we have real/original sessions, filter out mock data clicks
     const filteredClicks = heatmapClicks.filter(click => {
       if (isTechnicalProblem) return true;
-      if (hasRealSessions) {
-        return click.session_id && !click.session_id.startsWith('sess-mock-');
-      }
-      return true;
+      return click.session_id && !click.session_id.startsWith('sess-mock-');
     });
 
     filteredClicks.forEach(click => {
@@ -184,30 +145,24 @@ export default function App() {
     } catch (err) {
       console.error('Error fetching sessions:', err);
       setIsTechnicalProblem(true);
-      setSessions(LOCAL_FALLBACK_SESSIONS);
-      setPages([DEMO_URL]);
-      setSelectedPage(DEMO_URL);
+      setSessions([]);
+      setPages([]);
+      setSelectedPage('');
       setLoadingSessions(false);
       return;
     }
 
-    // Filter out backend-seeded mock events if original user data is present
+    // Always filter out backend-seeded mock events. Users should create real sessions from the demo store.
     const originalSessions = rawSessions.filter(s => !s.session_id.startsWith('sess-mock-'));
 
-    if (originalSessions.length > 0) {
-      setSessions(originalSessions);
-      setHasRealSessions(true);
-    } else {
-      setSessions(rawSessions); // Show seeded mock sessions because no user data exists yet
-      setHasRealSessions(false);
-    }
+    setSessions(originalSessions);
+    setHasRealSessions(originalSessions.length > 0);
     setLoadingSessions(false);
 
     try {
       const res = await fetch(`${API_BASE_URL}/api/events/pages`);
       if (res.ok) {
-        const rawPages = await res.json();
-        let nextPages = rawPages;
+        let nextPages = [];
 
         if (originalSessions.length > 0) {
           const sessionEventGroups = await Promise.all(
@@ -239,12 +194,7 @@ export default function App() {
     if (!selectedSessionId) return;
 
     if (isTechnicalProblem) {
-      // Load fallback simulation data on technical error
-      if (selectedSessionId.startsWith('sess-fallback-demo-')) {
-        setSessionEvents(LOCAL_FALLBACK_EVENTS);
-      } else {
-        setSessionEvents([]);
-      }
+      setSessionEvents([]);
       return;
     }
 
@@ -271,7 +221,7 @@ export default function App() {
     if (!selectedPage) return;
 
     if (isTechnicalProblem) {
-      setHeatmapClicks(LOCAL_FALLBACK_HEATMAP);
+      setHeatmapClicks([]);
       return;
     }
 
@@ -418,7 +368,7 @@ export default function App() {
             animation: 'fadeIn 0.3s ease-out'
           }}>
             <span style={{ fontWeight: 800 }}>⚠️ CONNECTION PROBLEM:</span>
-            Backend unreachable. Displaying local simulated sandbox events for demonstration purposes.
+            Backend unreachable. Open the demo store after the backend is available, then refresh this dashboard.
           </div>
         )}
 
