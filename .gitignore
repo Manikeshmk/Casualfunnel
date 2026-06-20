@@ -2,16 +2,46 @@
 node_modules/
 jspm_packages/
 
+# Package manager lock files
+package-lock.json
+npm-shrinkwrap.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+
 # Local databases / storage
 backend/data/events.json
+backend/data/
 database.json
+*.sqlite
+*.sqlite3
+*.db
 
 # Environment files
 .env
+.env.*
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+!.env.example
+!.env.*.example
+
+# Secrets / credentials
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+*.secret
+secrets.*
+credentials.*
+service-account*.json
 
 # Log files
 npm-debug.log*
@@ -19,15 +49,24 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+*.log
 
 # Build outputs
 dist/
 build/
 .next/
 out/
+coverage/
+.nyc_output/
+.cache/
+.parcel-cache/
+.vite/
+tmp/
+temp/
 
 # Editor / OS settings
 .DS_Store
+Thumbs.db
 .idea/
 .vscode/
 *.suo

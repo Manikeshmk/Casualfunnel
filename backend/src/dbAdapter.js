@@ -22,7 +22,7 @@ const connectDB = async () => {
   }
 
   try {
-    console.log('Connecting to MongoDB at:', mongoUri);
+    console.log('Connecting to MongoDB...');
     // Timeout quickly if Mongo is not running
     await mongoose.connect(mongoUri, {
       serverSelectionTimeoutMS: 3000

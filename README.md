@@ -106,9 +106,3 @@ CasualFunnel/
 ```
 
 ---
-
-## ☁️ Deployment
-
-For deploying the dashboard and analytics backend to Vercel, and configuring hosted database storage, check out the detailed step-by-step instructions in [DEPLOYMENT_VERCEL.md](./DEPLOYMENT_VERCEL.md).
-"# Casualfunnel" 
-"# Casualfunnel" 
