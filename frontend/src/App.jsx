@@ -18,6 +18,10 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/_
 const DEMO_URL = import.meta.env.PROD ? '/_/backend/demo/' : 'http://localhost:3001/demo/';
 const TRACKER_URL = import.meta.env.PROD ? '/_/backend/tracker/tracker.js' : 'http://localhost:3001/tracker/tracker.js';
 
+const uniquePageUrls = (events) => (
+  [...new Set(events.map(event => event.page_url).filter(Boolean))]
+);
+
 // Local static fallback data in case of technical issues connecting to backend API
 const LOCAL_FALLBACK_SESSIONS = [
   {
@@ -203,9 +207,22 @@ export default function App() {
       const res = await fetch(`${API_BASE_URL}/api/events/pages`);
       if (res.ok) {
         const rawPages = await res.json();
-        setPages(rawPages);
-        if (rawPages.length > 0 && !selectedPage) {
-          setSelectedPage(rawPages[0]);
+        let nextPages = rawPages;
+
+        if (originalSessions.length > 0) {
+          const sessionEventGroups = await Promise.all(
+            originalSessions.map(async (session) => {
+              const sessionRes = await fetch(`${API_BASE_URL}/api/events/sessions/${session.session_id}`);
+              return sessionRes.ok ? sessionRes.json() : [];
+            })
+          );
+
+          nextPages = uniquePageUrls(sessionEventGroups.flat());
+        }
+
+        setPages(nextPages);
+        if (!nextPages.includes(selectedPage)) {
+          setSelectedPage(nextPages[0] || '');
         }
       }
     } catch (err) {
