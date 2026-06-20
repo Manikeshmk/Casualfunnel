@@ -7,7 +7,11 @@
 
   // Get current script config
   const currentScript = document.currentScript;
-  const apiUrl = currentScript ? (currentScript.getAttribute('data-api-url') || 'http://localhost:3001') : 'http://localhost:3001';
+  const scriptUrl = currentScript ? new URL(currentScript.src, window.location.href) : null;
+  const inferredApiUrl = scriptUrl
+    ? `${scriptUrl.origin}${scriptUrl.pathname.replace(/\/tracker\/tracker\.js$/, '')}`
+    : 'http://localhost:3001';
+  const apiUrl = currentScript ? (currentScript.getAttribute('data-api-url') || inferredApiUrl) : inferredApiUrl;
 
   // Helper to generate a unique session ID
   function generateUUID() {

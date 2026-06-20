@@ -37,8 +37,8 @@ const startServer = async () => {
   await dbAdapter.connectDB();
   
   // Seed mock data if database is empty
-  const demoUrl = process.env.VERCEL 
-    ? `https://${process.env.VERCEL_URL}/demo` 
+  const demoUrl = process.env.VERCEL
+    ? `https://${process.env.VERCEL_URL}/_/backend/demo/`
     : `http://localhost:${PORT}/demo`;
   await dbAdapter.seedMockData(demoUrl);
 
