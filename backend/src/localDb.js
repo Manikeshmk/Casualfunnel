@@ -2,19 +2,27 @@ const fs = require('fs');
 const path = require('path');
 
 const FILE_PATH = path.join(__dirname, '../data/events.json');
+const useMemoryDb = Boolean(process.env.VERCEL);
+let memoryEvents = [];
 
-// Ensure data directory exists
-const dir = path.dirname(FILE_PATH);
-if (!fs.existsSync(dir)) {
-  fs.mkdirSync(dir, { recursive: true });
-}
+if (!useMemoryDb) {
+  // Ensure data directory exists for local development only.
+  const dir = path.dirname(FILE_PATH);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
 
-// Ensure events file exists
-if (!fs.existsSync(FILE_PATH)) {
-  fs.writeFileSync(FILE_PATH, JSON.stringify([], null, 2), 'utf-8');
+  // Ensure events file exists for local development only.
+  if (!fs.existsSync(FILE_PATH)) {
+    fs.writeFileSync(FILE_PATH, JSON.stringify([], null, 2), 'utf-8');
+  }
 }
 
 function readEvents() {
+  if (useMemoryDb) {
+    return memoryEvents;
+  }
+
   try {
     const raw = fs.readFileSync(FILE_PATH, 'utf-8');
     return JSON.parse(raw || '[]');
@@ -25,6 +33,11 @@ function readEvents() {
 }
 
 function writeEvents(events) {
+  if (useMemoryDb) {
+    memoryEvents = events;
+    return;
+  }
+
   try {
     fs.writeFileSync(FILE_PATH, JSON.stringify(events, null, 2), 'utf-8');
   } catch (err) {

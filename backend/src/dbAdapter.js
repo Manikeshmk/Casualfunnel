@@ -4,19 +4,21 @@ const localDb = require('./localDb');
 
 let useMongo = false;
 
+const fallbackStorageName = () => process.env.VERCEL ? 'In-memory fallback' : 'Local JSON file';
+
 // Attempt to connect to MongoDB
 const connectDB = async () => {
   const mode = process.env.DB_MODE || 'auto';
   const mongoUri = process.env.MONGODB_URI;
 
   if (mode === 'local') {
-    console.log('Database Mode set to LOCAL. Using local JSON database (data/events.json).');
+    console.log(`Database Mode set to LOCAL. Using ${fallbackStorageName()}.`);
     useMongo = false;
     return;
   }
 
   if (!mongoUri) {
-    console.log('No MONGODB_URI found in env. Falling back to local JSON database.');
+    console.log(`No MONGODB_URI found in env. Falling back to ${fallbackStorageName()}.`);
     useMongo = false;
     return;
   }
@@ -30,7 +32,7 @@ const connectDB = async () => {
     console.log('Successfully connected to MongoDB.');
     useMongo = true;
   } catch (error) {
-    console.warn('MongoDB connection failed. Falling back to local JSON database.');
+    console.warn(`MongoDB connection failed. Falling back to ${fallbackStorageName()}.`);
     console.warn(`Reason: ${error.message}`);
     useMongo = false;
   }
@@ -126,7 +128,7 @@ const dbAdapter = {
     try {
       const count = useMongo ? await Event.countDocuments() : await localDb.countDocuments();
       if (count > 0) {
-        console.log(`Database already has ${count} events. Skipping mock seeding.`);
+      console.log(`Database already has ${count} events. Skipping mock seeding.`);
         return;
       }
 
@@ -191,7 +193,7 @@ const dbAdapter = {
         await localDb.insert(events);
       }
       
-      console.log(`Mock seeding complete. Inserted ${events.length} events into ${useMongo ? 'MongoDB' : 'Local JSON file'}.`);
+      console.log(`Mock seeding complete. Inserted ${events.length} events into ${useMongo ? 'MongoDB' : fallbackStorageName()}.`);
     } catch (error) {
       console.error('Error seeding mock data:', error);
     }

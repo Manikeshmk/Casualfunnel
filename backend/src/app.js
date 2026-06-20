@@ -27,7 +27,9 @@ app.get('/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     message: 'User Analytics Backend is running',
-    database: dbAdapter.isUsingMongo() ? 'MongoDB' : 'Local JSON File'
+    database: dbAdapter.isUsingMongo()
+      ? 'MongoDB'
+      : (process.env.VERCEL ? 'In-memory fallback' : 'Local JSON File')
   });
 });
 
