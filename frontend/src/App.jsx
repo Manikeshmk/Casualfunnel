@@ -14,7 +14,9 @@ import {
   Monitor
 } from 'lucide-react';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/_/backend' : 'http://localhost:3001');
+const DEMO_URL = import.meta.env.PROD ? '/_/backend/demo/' : 'http://localhost:3001/demo/';
+const TRACKER_URL = import.meta.env.PROD ? '/_/backend/tracker/tracker.js' : 'http://localhost:3001/tracker/tracker.js';
 
 // Local static fallback data in case of technical issues connecting to backend API
 const LOCAL_FALLBACK_SESSIONS = [
@@ -179,8 +181,8 @@ export default function App() {
       console.error('Error fetching sessions:', err);
       setIsTechnicalProblem(true);
       setSessions(LOCAL_FALLBACK_SESSIONS);
-      setPages(['http://localhost:3001/demo/']);
-      setSelectedPage('http://localhost:3001/demo/');
+      setPages([DEMO_URL]);
+      setSelectedPage(DEMO_URL);
       setLoadingSessions(false);
       return;
     }
@@ -484,7 +486,7 @@ export default function App() {
                   </p>
                   <div style={{ display: 'flex', gap: '0.75rem' }}>
                     <a
-                      href="http://localhost:3001/demo/"
+                      href={DEMO_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
@@ -530,8 +532,8 @@ export default function App() {
                   whiteSpace: 'pre'
                 }}>
                   {`<script 
-  src="http://localhost:3001/tracker/tracker.js" 
-  data-api-url="http://localhost:3001">
+  src="${TRACKER_URL}" 
+  data-api-url="${API_BASE_URL}">
 </script>`}
                 </div>
               </div>
