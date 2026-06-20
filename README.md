@@ -99,8 +99,7 @@ CasualFunnel/
 ├── demo/
 │   └── index.html             # High-fidelity sandbox demo store
 ├── .gitignore                 # Exclusion configuration matrix
-├── README.md                  # System overview & documentation
-└── DEPLOYMENT_VERCEL.md       # Edge network distribution blueprint
+└── README.md                  # System overview & documentation
 ```
 
 ---
