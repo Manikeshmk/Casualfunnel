@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aura Gadgets - Premium Demo Store</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --bg: #0b0f19;
+      --surface: #151b2c;
+      --surface-hover: #1e263d;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --border: #242f49;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(21, 27, 44, 0.8);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #a5b4fc, #6366f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.025em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.25rem;
+      border-radius: 0px; /* 90-degree sharp corner */
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      text-align: center;
+      padding: 5rem 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(to right, #ffffff, #9ca3af);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .hero-btn {
+      font-size: 1.1rem;
+      padding: 0.8rem 2rem;
+    }
+
+    .products {
+      max-width: 1200px;
+      margin: 0 auto 5rem;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .product-card {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0px; /* 90-degree sharp corner */
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+      background-color: var(--surface-hover);
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+    }
+
+    .product-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .product-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .price {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 1.5rem;
+    }
+
+    footer {
+      margin-top: auto;
+      background-color: #070a12;
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .session-info {
+      margin-top: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.75rem 1.5rem;
+      border-radius: 0px; /* 90-degree sharp corner */
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: monospace;
+    }
+
+    .session-id {
+      color: #34d399;
+      font-weight: bold;
+    }
+
+    .reset-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0px; /* 90-degree sharp corner */
+      font-size: 0.75rem;
+      transition: all 0.2s;
+    }
+
+    .reset-btn:hover {
+      background: var(--border);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo">AURA GADGETS</div>
+      <ul class="nav-links">
+        <li><a href="#" id="nav-home">Home</a></li>
+        <li><a href="#" id="nav-shop">Shop</a></li>
+        <li><a href="#" id="nav-support">Support</a></li>
+      </ul>
+      <button class="btn" id="cart-button">Cart (0)</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Next Gen Personal Audio & Tech</h1>
+    <p>Discover sleek designs, crystal clear sound, and ultimate efficiency crafted for creators.</p>
+    <button class="btn hero-btn" id="hero-explore-btn">Explore Collection</button>
+    <p style="margin-top: 1rem; color:red ;">* All buttons are only for click purpose, it won't redirect any where.</p>
+  </section>
+
+  <div class="products">
+    <div class="product-card" id="card-headphones">
+      <div>
+        <div class="product-icon">🎧</div>
+        <h3>Aura Sound Max</h3>
+        <p>Active noise-cancelling wireless headphones with 40-hour battery life and deep bass.</p>
+      </div>
+      <div>
+        <div class="price">$299</div>
+        <button class="btn" style="width: 100%;" id="buy-headphones-btn">Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="product-card" id="card-watch">
+      <div>
+        <div class="product-icon">⌚</div>
+        <h3>Aura Watch Pro</h3>
+        <p>Premium smartwatch featuring always-on display, health monitoring and GPS tracking.</p>
+      </div>
+      <div>
+        <div class="price">$199</div>
+        <button class="btn" style="width: 100%;" id="buy-watch-btn">Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="product-card" id="card-stand">
+      <div>
+        <div class="product-icon">🔋</div>
+        <h3>Aura MagStand</h3>
+        <p>3-in-1 magnetic wireless charging stand for your iPhone, Apple Watch, and AirPods.</p>
+      </div>
+      <div>
+        <div class="price">$79</div>
+        <button class="btn" style="width: 100%;" id="buy-stand-btn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Aura Gadgets. All rights reserved.</p>
+    <div class="session-info">
+      <span>Session ID: <span class="session-id" id="display-session-id">Loading...</span></span>
+      <button class="reset-btn" id="btn-reset-session">Reset Session</button>
+    </div>
+  </footer>
+
+  <!-- Load Tracking Script dynamically from backend -->
+  <script src="/tracker/tracker.js" data-api-url="http://localhost:3001" id="analytics-script"></script>
+
+  <script>
+    // Update session ID in UI
+    function updateSessionUI() {
+      const sessId = localStorage.getItem('causalfunnel_session_id');
+      document.getElementById('display-session-id').innerText = sessId || 'None';
+    }
+
+    // Initialize UI check
+    setTimeout(updateSessionUI, 500);
+
+    // Cart logic
+    let cartCount = 0;
+    const cartButton = document.getElementById('cart-button');
+    
+    function addToCart() {
+      cartCount++;
+      cartButton.innerText = `Cart (${cartCount})`;
+    }
+
+    document.getElementById('buy-headphones-btn').addEventListener('click', addToCart);
+    document.getElementById('buy-watch-btn').addEventListener('click', addToCart);
+    document.getElementById('buy-stand-btn').addEventListener('click', addToCart);
+
+    // Reset session
+    document.getElementById('btn-reset-session').addEventListener('click', function(e) {
+      e.stopPropagation(); // prevent triggering a click event
+      localStorage.removeItem('causalfunnel_session_id');
+      alert('Session reset! Reloading page to start a new session...');
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>
