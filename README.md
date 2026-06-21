@@ -7,7 +7,6 @@
   <br /><br />
   <p>🚀 <strong>A sleek, lightweight, full-stack user analytics tracking system and interactive dashboard.</strong> Aura Analytics captures real-time visitor sessions and click coordinates, rendering density-based heatmaps and event timeline journeys.</p>
 </div>
-
 ---
 
 ## 🛠️ Tech Stack & Power Grid
