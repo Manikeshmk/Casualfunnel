@@ -1,3 +1,7 @@
+![Repo visits](https://hits.sh/github.com/Manikeshmk/Casualfunnel.svg?label=repo%20visits)
+![GitHub stars](https://img.shields.io/github/stars/Manikeshmk/Casualfunnel?style=logo&logo=github&label=⭐%20Stars) 
+![GitHub forks](https://img.shields.io/github/forks/Manikeshmk/Casualfunnel?style=social)
+
 # 🌌 Aura Analytics — User Tracking & Insights Suite
 
 <div align="center">
