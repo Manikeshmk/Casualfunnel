@@ -111,6 +111,8 @@ CasualFunnel/
 
 Follow these explicit setup blocks to mirror the production engine directly onto your local environment.
 
+
+
 ### 1. Prerequisites
 Ensure your machine meets the minimum version constraints:
 * **Node.js** $\ge$ `v18.0.0`
@@ -159,3 +161,4 @@ npm run dev
 2. Spin up the targeted test container sandbox storefront tracking range at `http://localhost:3001/demo/`
 3. Generate localized click paths, scroll triggers, and navigation changes on the storefront page. Return back to the principal metrics center dashboard, hit **Refresh** from the top right, and check your live absolute telemetry mapping change instantly.
 ```
+--by Manikesh Kumar
